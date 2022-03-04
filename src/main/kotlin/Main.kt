@@ -8,7 +8,7 @@ fun main(args: Array<String>) {
 fun mainMenu() : Int {
     print(""" 
          > ----------------------------------
-         > |        NOTE KEEPER APP         |
+         > |        NOTE KEEPER APP  !      |
          > ----------------------------------
          > | NOTE MENU                      |
          > |   1) Add a note                |
