@@ -1,8 +1,9 @@
 package controllers
 
 import models.Note
+import persistance.XMLSerializer
 
-class NoteAPI() {
+class NoteAPI(xmlSerializer: XMLSerializer) {
 
 
     private var notes = ArrayList<Note>()
@@ -63,6 +64,18 @@ class NoteAPI() {
     fun isValidIndex(index: Int) :Boolean{
         return isValidListIndex(index, notes);
     }
+
+    @Throws(Exception::class)
+    fun load() {
+        notes = serializer.read() as ArrayList<Note>
+    }
+
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(notes)
+    }
+
+
 }
 
 
