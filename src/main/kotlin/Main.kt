@@ -1,4 +1,3 @@
-import controllers.NoteAPI
 import models.Note
 import persistance.Serializer
 import persistance.XMLSerializer
@@ -8,7 +7,8 @@ import utils.ScannerInput.readNextLine
 import java.io.File
 import java.lang.System.exit
 
-
+private var populatedNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
+private var emptyNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
 
 private val noteAPI = NoteAPI(XMLSerializer(File("notes.xml")))
 

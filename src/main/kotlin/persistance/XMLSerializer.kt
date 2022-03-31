@@ -12,8 +12,7 @@ import java.io.FileWriter
 import java.lang.Exception
 
 
-private var populatedNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
-private var emptyNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
+
 
 class XMLSerializer(private val file: File) : Serializer {
 
