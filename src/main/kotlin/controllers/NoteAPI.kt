@@ -1,8 +1,14 @@
 package controllers
 
 import models.Note
+import persistance.JSONSerializer
+import persistance.XMLSerializer
+import java.io.File
 
-class NoteAPI() {
+
+//private val noteAPI = NoteAPI(XMLSerializer(File("notes.xml")))
+private val noteAPI = NoteAPI(JSONSerializer(File("notes.json")))
+class NoteAPI(xmlSerializer: XMLSerializer) {
 
 
     private var notes = ArrayList<Note>()
@@ -63,6 +69,29 @@ class NoteAPI() {
     fun isValidIndex(index: Int) :Boolean{
         return isValidListIndex(index, notes);
     }
+
+    fun archiveNote(indexToArchive: Int): Boolean {
+        if (isValidIndex(indexToArchive)) {
+            val noteToArchive = notes[indexToArchive]
+            if (!noteToArchive.isNoteArchived) {
+                noteToArchive.isNoteArchived = true
+                return true
+            }
+        }
+        return false
+    }
+
+    @Throws(Exception::class)
+    fun load() {
+        notes = serializer.read() as ArrayList<Note>
+    }
+
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(notes)
+    }
+
+
 }
 
 

@@ -1,18 +1,25 @@
-import controllers.NoteAPI
 import models.Note
+import persistance.Serializer
+import persistance.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import java.io.File
 import java.lang.System.exit
 
+private var populatedNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
+private var emptyNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
 
-private val noteAPI = NoteAPI()
-
+private val noteAPI = NoteAPI(XMLSerializer(File("notes.xml")))
 
 fun main(args: Array<String>) {
     runMenu()
 }
 
+class NoteAPI(serializerType: Serializer) {
+
+    private var serializer: Serializer = serializerType
+}
 
 
 fun mainMenu() : Int {
@@ -87,6 +94,7 @@ fun updateNote() {
             println("There are no notes for this index number")
         }
     }
+
 }
 
 fun deleteNote(){
@@ -103,6 +111,24 @@ fun deleteNote(){
             println("Delete NOT Successful")
         }
     }
+
+    fun save() {
+        try {
+            noteAPI.store()
+        } catch (e: Exception) {
+            System.err.println("Error writing to file: $e")
+        }
+    }
+
+    fun load() {
+        try {
+            noteAPI.load()
+        } catch (e: Exception) {
+            System.err.println("Error reading from file: $e")
+        }
+    }
+
+
 }
 fun exitApp(){
     println("Exiting...bye")
