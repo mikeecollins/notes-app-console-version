@@ -1,3 +1,4 @@
+import controllers.NoteAPI
 import models.Note
 import persistance.Serializer
 import persistance.XMLSerializer
@@ -7,8 +8,6 @@ import utils.ScannerInput.readNextLine
 import java.io.File
 import java.lang.System.exit
 
-private var populatedNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
-private var emptyNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
 
 private val noteAPI = NoteAPI(XMLSerializer(File("notes.xml")))
 
@@ -16,10 +15,6 @@ fun main(args: Array<String>) {
     runMenu()
 }
 
-class NoteAPI(serializerType: Serializer) {
-
-    private var serializer: Serializer = serializerType
-}
 
 
 fun mainMenu() : Int {
@@ -129,11 +124,17 @@ fun deleteNote(){
     }
 
 
+
+    class NoteAPI(serializerType: Serializer){
+
+        private var serializer: Serializer = serializerType
+
 }
 fun exitApp(){
     println("Exiting...bye")
     exit(0)
 }
 
+}
 
 

@@ -1,15 +1,13 @@
 package controllers
 
 import models.Note
-import persistance.JSONSerializer
+import persistance.Serializer
 import persistance.XMLSerializer
 import java.io.File
 
 
-//private val noteAPI = NoteAPI(XMLSerializer(File("notes.xml")))
-private val noteAPI = NoteAPI(JSONSerializer(File("notes.json")))
+private val noteAPI = NoteAPI(XMLSerializer(File("notes.xml")))
 class NoteAPI(xmlSerializer: XMLSerializer) {
-
 
     private var notes = ArrayList<Note>()
     fun add(note: Note): Boolean {
@@ -52,7 +50,7 @@ class NoteAPI(xmlSerializer: XMLSerializer) {
 
     fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
         //find the note object by the index number
-        val foundNote = findNote(indexToUpdate)
+        var foundNote = findNote(indexToUpdate)
 
         //if the note exists, use the note details passed as parameters to update the found note in the ArrayList.
         if ((foundNote != null) && (note != null)) {
@@ -81,17 +79,25 @@ class NoteAPI(xmlSerializer: XMLSerializer) {
         return false
     }
 
-    @Throws(Exception::class)
-    fun load() {
-        notes = serializer.read() as ArrayList<Note>
+
+
+
+    class NoteAPI(serializerType: Serializer) {
+
+        private var serializer: Serializer = serializerType
+
+
+        @Throws(Exception::class)
+        fun load() {
+            notes = serializer.read() as ArrayList<Note>
+        }
+
+        @Throws(Exception::class)
+        fun store() {
+            serializer.write(notes)
+        }
+
     }
-
-    @Throws(Exception::class)
-    fun store() {
-        serializer.write(notes)
-    }
-
-
 }
 
 
